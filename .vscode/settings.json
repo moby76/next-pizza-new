@@ -1,0 +1,17 @@
+{
+    "editor.tokenColorCustomizations": {
+        "[Monokai]": {
+            "comments": "#8b8b8b",
+            "textMateRules": [
+                {
+                    "scope": "comment",
+                    "settings": {
+                        "fontStyle": "italic underline"
+                    }
+                }
+            ]
+        },
+        "comments": "",
+        "textMateRules": []
+    }
+}

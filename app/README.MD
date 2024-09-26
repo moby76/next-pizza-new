@@ -1,0 +1,2 @@
+Применяются группируемые роуты https://nextjs.org/docs/app/building-your-application/routing/route-groups
+и парралельный роутинг https://nextjs.org/docs/app/building-your-application/routing/parallel-routes
