@@ -16,6 +16,7 @@ export async function GET() {
         
         // const session = await getServerSession();//NOTE - в финальном коде оригинала указанно так, хотя в видео он получал через getUserSession
         // const session = await getUserSession();
+        // const userMe = session?.user
 
         // ** Если не получили сессию и пользователя из сессии, то вернем ошибку
         if(!session?.user) {
