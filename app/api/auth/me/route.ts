@@ -1,4 +1,5 @@
 //ендпоинт для получения данных текущего пользователя
+//FIXME - наверное должен быть в папке users(?)
 
 import { prisma } from "@/prisma/prisma-client";
 import { getUserSession } from "@/shared/lib/get-user-session";

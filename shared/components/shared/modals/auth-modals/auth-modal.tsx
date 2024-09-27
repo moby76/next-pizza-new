@@ -36,7 +36,7 @@ export const AuthModal = ({  open, onClose }: Props) => {
             <DialogContent className='w-[450px] bg-white p-10'  >
                 <DialogTitle />
                 <DialogDescription />
-                    {/* если стейт type имеет значение login то отрендерить форму логина  */}
+                    {/* если стейт type имеет значение login то отрендерить форму логина иначе вывести форму регистрации */}
                     { type === 'login' ? (<LoginForm onClose={handleClose} />) : (<RegisterForm onClose={handleClose} />) }
 
                 <hr />

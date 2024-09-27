@@ -29,7 +29,7 @@ export default function CheckoutPage() {
     //получить из хука useCart(переиспользованные из useCartStore) стейты: общая сумма, элементы корзины, обновление элемента корзины, удаление элемента из корзины, состояние загрузки
     const { totalAmount, items, updateItemQuantity, removeCartItem, loading } = useCart()
 
-    
+
     //получить сессию 
     const { data: session } = useSession()
 
@@ -47,24 +47,24 @@ export default function CheckoutPage() {
     })
 
     useEffect(() => {
-        
-            //создать функцию автоматического заполнения полей формы текущего пользователя
-            async function fetchUserInfo() {
-                //получить данные текущего в сессии пользователя черес Api.auth.getMe
-                const userMe = await Api.auth.getMe()
-                // console.log('userMe', userMe);
-                //разделить полученное полное имя на имя и фамилию
-                const [firstName, lastName] = userMe.fullName.split(' ');
 
-                //и заполнить поля созданной раннее --^ формы полученными данными
-                 form.setValue('firstName', firstName)
-                 form.setValue('lastName', lastName)
-                form.setValue('email', userMe.email)
-            }
+        //создать функцию автоматического заполнения полей формы текущего пользователя
+        async function fetchUserInfo() {
+            //получить данные текущего в сессии пользователя черес Api.auth.getMe
+            const userMe = await Api.auth.getMe()
+            // console.log('userMe', userMe);
+            //разделить полученное полное имя на имя и фамилию
+            const [firstName, lastName] = userMe.fullName.split(' ');
 
-            //вернуть функцию fetchUserInfo при существовании пользователя в текущей сессии
-            if(session) {
-                fetchUserInfo() 
+            //и заполнить поля созданной раннее --^ формы полученными данными
+            form.setValue('firstName', firstName)
+            form.setValue('lastName', lastName)
+            form.setValue('email', userMe.email)
+        }
+
+        //вернуть функцию fetchUserInfo при существовании пользователя в текущей сессии
+        if (session) {
+            fetchUserInfo()
         }
     }, [session, form])
 
@@ -133,10 +133,9 @@ export default function CheckoutPage() {
                     {/* правая часть */}
                     <div className="w-[450px]">
                         {/* блок с итогами заказа */}
-                        <CheckoutTotalCost 
-                        
-                        totalAmount={totalAmount} 
-                        loading={loading || submitting} />
+                        <CheckoutTotalCost
+                            totalAmount={totalAmount}
+                            loading={loading || submitting} />
                     </div>
                 </div>
 

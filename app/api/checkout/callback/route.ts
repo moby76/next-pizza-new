@@ -1,4 +1,7 @@
-//в этот API-endpoint будут попадать сведения о статусе оплаты нашего заказа
+//в этот API-endpoint будут попадать сведения о статусе оплаты нашего заказа с сервиса yookassa
+//данный адрес прописываем в сервисе yookassa в разделе "интеграция" -> HTTP-уведомления - > поле URL для уведомлений
+//этот эндпоинт не используется для получения/передачи данных внутри приложения. Его исполльзует только сервис yookassa 
+//NOTE - Для доступа к локальному хосту используется "туннельный" путь через сервис localtunnel (npm install -g localtunnel) и будет иметь адрес типа https://giant-parrots-battle.loca.lt/api/checkout/callback
 //здесь мы должны ожидать запрос
 
 import { PaymentCallbackData } from "@/@types/yookassa";
@@ -12,7 +15,7 @@ import { OrderStatus } from '@prisma/client';
 export async function POST(req: NextRequest) {
 
     try {
-        // * получить тело запроса и типизировать его по типу PaymentCallbackData
+        // * получить тело запроса и типизировать его по типу PaymentCallbackData.
         const body = (await req.json()) as PaymentCallbackData
 
         // ** Найти заказ и обработать/обновить его данные(например, после успешной оплаты поменять статус заказа)
@@ -31,7 +34,7 @@ export async function POST(req: NextRequest) {
 
         // *** обновить этот --^ заказ изменив в нём статус с Pending на Success
 
-        //получить успешный статус из платёжной системы
+        //получить из тела запроса статус из платёжной системы. При успешной оплате значение статуса будет "succeeded" 
         const isSucceeded = body.object.status === 'succeeded'
 
         await prisma.order.update({

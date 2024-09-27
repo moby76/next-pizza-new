@@ -1,4 +1,5 @@
 //ендпоинт на получение кода подтверждения по email
+
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/prisma/prisma-client';
 
