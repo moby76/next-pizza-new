@@ -15,7 +15,7 @@ export const updateCartTotalAmount = async (token: string) => {
         include: {
             cartItems: {//получить все вариации товаров из этой корзины
                 orderBy: {
-                    createdAt: 'desc'
+                    date_created: 'desc'
                 },
                 include: {//включая
                     productItem: {// вариант продукта
@@ -63,7 +63,7 @@ export const updateCartTotalAmount = async (token: string) => {
         include: {
             cartItems: {
                 orderBy: {
-                    createdAt: 'desc'
+                    date_created: 'desc'
                 },
                 include: {
                     productItem: {

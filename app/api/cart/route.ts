@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
             include: {
                 cartItems: {//получить все элементы из этой корзины
                     orderBy: {
-                        createdAt: 'desc'
+                        date_created: 'desc'
                     },
                     include: {//включая
                         productItem: {// вариант продукта

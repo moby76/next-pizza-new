@@ -13,12 +13,12 @@ export default async function ProductPage({ params: { id } }: { params: { id: st
             id: Number(id)
         },
         include: {//включая 
-            ProductIngredient: {
+            Product_Ingredient: {
                 include: { Ingredient: true }//ингредиенты этого продукта
             },
             ProductItem: {//варианты созданные на основе этого продукта
                 orderBy: {
-                    createdAt: 'desc'//отсортированных по уменьшению(от последних к старым)
+                    date_created: 'desc'//отсортированных по уменьшению(от последних к старым)
                 }
             },
             //FIXME * Этот блок запроса лучше вынести в отдельный файл и подгружать его через useEffect. примерно описывает на 14:40:00  * //

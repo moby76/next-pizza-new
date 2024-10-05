@@ -1,7 +1,7 @@
 import { ProductItem } from "@prisma/client";
 import { calcTotalPizzaPrice } from "./calc-total-pizza-price";
 import { mapPizzaType, PizzaSize, PizzaType } from "../constants/pizza";
-// import { productIngredients } from "../components/shared/choose-pizza-form";
+// import { Product_Ingredients } from "../components/shared/choose-pizza-form";
 
 export const getPizzaDetails = (
     type: PizzaType,

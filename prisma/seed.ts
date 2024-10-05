@@ -62,7 +62,7 @@ async function up() {
       imageUrl:
         'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp',
       categoryId: 1,
-      ProductIngredient: {
+      Product_Ingredient: {
         connect: ingredients.slice(0, 5),
       },
     },
@@ -74,7 +74,7 @@ async function up() {
       imageUrl:
         'https://media.dodostatic.net/image/r:233x233/11EE7D610CF7E265B7C72BE5AE757CA7.webp',
       categoryId: 1,
-      ProductIngredient: {
+      Product_Ingredient: {
         connect: ingredients.slice(5, 10),
       },
     },
@@ -86,7 +86,7 @@ async function up() {
       imageUrl:
         'https://media.dodostatic.net/image/r:584x584/11EE7D61706D472F9A5D71EB94149304.webp',
       categoryId: 1,
-      ProductIngredient: {
+      Product_Ingredient: {
         connect: ingredients.slice(10, 40),
       },
     },

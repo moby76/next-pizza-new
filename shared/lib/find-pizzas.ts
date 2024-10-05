@@ -38,10 +38,10 @@ export const findPizzas = async (params: GetSearchParams) => {//
                 // * сортировка * //
                 where: {
                     // сортировка по ингредиентам на основе значений массива ingredientsIdArr
-                    ProductIngredient: ingredientsIdArr //если есть массив ingredientsIdArr ТО:
+                    Product_Ingredient: ingredientsIdArr //если есть массив ingredientsIdArr ТО:
                         ? {//отфильтровать
                             some: { // найти какие-то соответствия
-                                ingredientId: {// id ингредиента в таблице ProductIngredient
+                                ingredientId: {// id ингредиента в таблице Product_Ingredient
                                     in: ingredientsIdArr // данным из массива ingredientsIdArr
                                 }
                             }
@@ -65,7 +65,7 @@ export const findPizzas = async (params: GetSearchParams) => {//
                 },
                 // вернуть поля включая ингредиенты и варианты продуктов
                 include: {
-                    ProductIngredient: {
+                    Product_Ingredient: {
                         include: {
                             Ingredient: true
                         }
@@ -97,7 +97,7 @@ export const findPizzas = async (params: GetSearchParams) => {//
     //         id: 'desc',
     //       },
     //       where: {
-    //         ProductIngredient: ingredientsIdArr?//FIXME - 
+    //         Product_Ingredient: ingredientsIdArr?//FIXME - 
     //            {
     //               some: {
     //                 id: {

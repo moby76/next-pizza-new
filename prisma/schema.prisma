@@ -1,13 +1,10 @@
 generator client {
   provider = "prisma-client-js"
-  // output   = "./generated/client"
 }
 
 datasource db {
   provider = "postgresql"
-  // url      = env("DATABASE_URL")
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  url      = env("DATABASE_URL")
 }
 
 model directus_activity {
@@ -26,7 +23,7 @@ model directus_activity {
 
 model directus_collections {
   collection                 String                 @id @db.VarChar(64)
-  icon                       String?                @db.VarChar(30)
+  icon                       String?                @db.VarChar(64)
   note                       String?
   display_template           String?                @db.VarChar(255)
   hidden                     Boolean                @default(false)
@@ -54,7 +51,7 @@ model directus_collections {
 model directus_dashboards {
   id              String            @id @db.Uuid
   name            String            @db.VarChar(255)
-  icon            String            @default("dashboard") @db.VarChar(30)
+  icon            String            @default("dashboard") @db.VarChar(64)
   note            String?
   date_created    DateTime?         @default(now()) @db.Timestamptz(6)
   user_created    String?           @db.Uuid
@@ -102,7 +99,7 @@ model directus_files {
   type                                                                  String?             @db.VarChar(255)
   folder                                                                String?             @db.Uuid
   uploaded_by                                                           String?             @db.Uuid
-  uploaded_on                                                           DateTime            @default(now()) @db.Timestamptz(6)
+  created_on                                                            DateTime            @default(now()) @db.Timestamptz(6)
   modified_by                                                           String?             @db.Uuid
   modified_on                                                           DateTime            @default(now()) @db.Timestamptz(6)
   charset                                                               String?             @db.VarChar(50)
@@ -119,6 +116,7 @@ model directus_files {
   focal_point_y                                                         Int?
   tus_id                                                                String?             @db.VarChar(64)
   tus_data                                                              Json?               @db.Json
+  uploaded_on                                                           DateTime?           @db.Timestamptz(6)
   directus_folders                                                      directus_folders?   @relation(fields: [folder], references: [id], onUpdate: NoAction, map: "directus_files_folder_foreign")
   directus_users_directus_files_modified_byTodirectus_users             directus_users?     @relation("directus_files_modified_byTodirectus_users", fields: [modified_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "directus_files_modified_by_foreign")
   directus_users_directus_files_uploaded_byTodirectus_users             directus_users?     @relation("directus_files_uploaded_byTodirectus_users", fields: [uploaded_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "directus_files_uploaded_by_foreign")
@@ -131,7 +129,7 @@ model directus_files {
 model directus_flows {
   id                  String                @id @db.Uuid
   name                String                @db.VarChar(255)
-  icon                String?               @db.VarChar(30)
+  icon                String?               @db.VarChar(64)
   color               String?               @db.VarChar(255)
   description         String?
   status              String                @default("active") @db.VarChar(255)
@@ -201,7 +199,7 @@ model directus_panels {
   id                  String              @id @db.Uuid
   dashboard           String              @db.Uuid
   name                String?             @db.VarChar(255)
-  icon                String?             @db.VarChar(30)
+  icon                String?             @db.VarChar(64)
   color               String?             @db.VarChar(10)
   show_header         Boolean             @default(false)
   note                String?
@@ -218,15 +216,15 @@ model directus_panels {
 }
 
 model directus_permissions {
-  id             Int             @id @default(autoincrement())
-  role           String?         @db.Uuid
-  collection     String          @db.VarChar(64)
-  action         String          @db.VarChar(10)
-  permissions    Json?           @db.Json
-  validation     Json?           @db.Json
-  presets        Json?           @db.Json
-  fields         String?
-  directus_roles directus_roles? @relation(fields: [role], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "directus_permissions_role_foreign")
+  id                Int               @id @default(autoincrement())
+  collection        String            @db.VarChar(64)
+  action            String            @db.VarChar(10)
+  permissions       Json?             @db.Json
+  validation        Json?             @db.Json
+  presets           Json?             @db.Json
+  fields            String?
+  policy            String            @db.Uuid
+  directus_policies directus_policies @relation(fields: [policy], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "directus_permissions_policy_foreign")
 }
 
 model directus_presets {
@@ -241,7 +239,7 @@ model directus_presets {
   layout_options   Json?           @db.Json
   refresh_interval Int?
   filter           Json?           @db.Json
-  icon             String?         @default("bookmark") @db.VarChar(30)
+  icon             String?         @default("bookmark") @db.VarChar(64)
   color            String?         @db.VarChar(255)
   directus_roles   directus_roles? @relation(fields: [role], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "directus_presets_role_foreign")
   directus_users   directus_users? @relation(fields: [user], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "directus_presets_user_foreign")
@@ -276,16 +274,15 @@ model directus_revisions {
 }
 
 model directus_roles {
-  id                   String                 @id @db.Uuid
-  name                 String                 @db.VarChar(100)
-  icon                 String                 @default("supervised_user_circle") @db.VarChar(30)
+  id                   String              @id @db.Uuid
+  name                 String              @db.VarChar(100)
+  icon                 String              @default("supervised_user_circle") @db.VarChar(64)
   description          String?
-  ip_access            String?
-  enforce_tfa          Boolean                @default(false)
-  admin_access         Boolean                @default(false)
-  app_access           Boolean                @default(true)
-  directus_permissions directus_permissions[]
+  parent               String?             @db.Uuid
+  directus_access      directus_access[]
   directus_presets     directus_presets[]
+  directus_roles       directus_roles?     @relation("directus_rolesTodirectus_roles", fields: [parent], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "directus_roles_parent_foreign")
+  other_directus_roles directus_roles[]    @relation("directus_rolesTodirectus_roles")
   directus_settings    directus_settings[]
   directus_shares      directus_shares[]
   directus_users       directus_users[]
@@ -399,6 +396,7 @@ model directus_users {
   theme_light                                                             String?                  @db.VarChar(255)
   theme_light_overrides                                                   Json?                    @db.Json
   theme_dark_overrides                                                    Json?                    @db.Json
+  directus_access                                                         directus_access[]
   directus_dashboards                                                     directus_dashboards[]
   directus_files_directus_files_modified_byTodirectus_users               directus_files[]         @relation("directus_files_modified_byTodirectus_users")
   directus_files_directus_files_uploaded_byTodirectus_users               directus_files[]         @relation("directus_files_uploaded_byTodirectus_users")
@@ -448,163 +446,180 @@ model directus_webhooks {
 }
 
 model User {
-  id               Int               @id @default(autoincrement())
-  status           String            @default("draft") @db.VarChar(255)
-  sort             Int?
-  fullName         String           @db.VarChar(255)
-  email            String           @unique(map: "user_email_unique") @db.VarChar(255)
-  password         String           @db.VarChar(255)
-  createdAt        DateTime?         @default(now())
-  updatedAt        DateTime?         @updatedAt
-  hash             String?           @db.VarChar(255)
-  role             UserRole          @default(USER)
-  socialNetwork    String?           @db.VarChar(255)
-  socialNetworkId  String?           @db.VarChar(255)
-  isVerified       Boolean           @default(false)
-  verifiedDate     DateTime?          @db.Timestamp(6)
-  cart             Cart?
-  orders           Order[]
-  VerificationCode VerificationCode?
+  id                                                       Int               @id @default(autoincrement())
+  date_created                                             DateTime?         @db.Timestamptz(6)
+  date_updated                                             DateTime?         @db.Timestamptz(6)
+  fullName                                                 String?           @db.VarChar(255)
+  email                                                    String?           @db.VarChar(255)
+  password                                                 String?           @db.VarChar(255)
+  role                                                     String?           @default("USER") @db.VarChar(255)
+  socialNetwork                                            String?           @db.VarChar(255)
+  socialNetworkId                                          String?           @db.VarChar(255)
+  isVerified                                               Boolean?          @default(false)
+  verifiedDate                                             DateTime?         @db.Timestamp(6)
+  VerificationCode                                         Int?              @unique(map: "user_verificationcode_unique")
+  cart                                                     Cart?
+  orders                                                   Order[]
+  VerificationCode_User_VerificationCodeToVerificationCode VerificationCode? @relation("User_VerificationCodeToVerificationCode", fields: [VerificationCode], references: [id], onUpdate: NoAction, map: "user_verificationcode_foreign")
 }
 
 model Product {
-  id                Int                 @id @default(autoincrement())
-  name              String              @db.VarChar(255)
-  createdAt         DateTime?           @default(now())
-  imageUrl          String
-  updatedAt         DateTime?           @updatedAt
-  categoryId        Int?
-  Category          Category?           @relation(fields: [categoryId], references: [id], onUpdate: NoAction, map: "product_categoryid_foreign")
-  ProductIngredient ProductIngredient[]
-  ProductItem       ProductItem[]
+  id                 Int                  @id @default(autoincrement())
+  date_created       DateTime?            @db.Timestamptz(6)
+  date_updated       DateTime?            @db.Timestamptz(6)
+  name               String               @db.VarChar(255)
+  imageUrl           String?              @db.VarChar(255)
+  categoryId         Int
+  Category           Category             @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "product_categoryid_foreign")
+  ProductItem        ProductItem[]
+  Product_Ingredient Product_Ingredient[]
 }
 
 model Category {
-  id        Int       @id @default(autoincrement())
-  name      String?   @unique(map: "category_name_unique") @db.VarChar(255)
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
-  Product   Product[]
+  id           Int       @id @default(autoincrement())
+  date_created DateTime? @db.Timestamptz(6)
+  date_updated DateTime? @db.Timestamptz(6)
+  name         String?   @db.VarChar(255)
+  Product      Product[]
 }
 
 model Ingredient {
   id                  Int                   @id @default(autoincrement())
-  name                String                @unique(map: "ingredient_name_unique") @db.VarChar(255)
-  updatedAt           DateTime?             @updatedAt
-  createdAt           DateTime?             @default(now())
+  date_created        DateTime?             @db.Timestamptz(6)
+  date_updated        DateTime?             @db.Timestamptz(6)
+  name                String                @db.VarChar(255)
   price               Int?
   imageUrl            String?               @db.VarChar(255)
-  Ingredient_CartItem Ingredient_CartItem[]
-  ProductIngredient   ProductIngredient[]
-  // cartItems CartItem[]
+  CartItem_Ingredient CartItem_Ingredient[]
+  Product_Ingredient  Product_Ingredient[]
 }
 
 model ProductItem {
-  id          Int        @id @default(autoincrement())
-  price       Int?
-  size        Int?
-  productId   Int
-  productType Int?
-  createdAt   DateTime?  @db.Timestamp(6)
-  cartItems   CartItem[]
-  product     Product   @relation(fields: [productId], references: [id], onUpdate: NoAction, map: "productitem_product_foreign")
+  id           Int        @id @default(autoincrement())
+  date_created DateTime?  @db.Timestamptz(6)
+  date_updated DateTime?  @db.Timestamptz(6)
+  price        Int?
+  size         Int?
+  productType  Int?
+  productId    Int?
+  cartItems    CartItem[]
+  product      Product?   @relation(fields: [productId], references: [id], onUpdate: NoAction, map: "productitem_product_foreign")
 }
 
 model Cart {
-  id          Int        @id @default(autoincrement())
-  createdAt   DateTime?  @default(now())
-  updatedAt   DateTime?  @updatedAt
-  totalAmount Int?       @default(0)
-  token       String?    @db.VarChar(255)
-  userId      Int?       @unique(map: "cart_userid_unique")
-  user        User?      @relation(fields: [userId], references: [id], onUpdate: NoAction, map: "cart_userid_foreign")
-  cartItems   CartItem[]
+  id           Int        @id @default(autoincrement())
+  date_created DateTime?  @db.Timestamptz(6)
+  date_updated DateTime?  @db.Timestamptz(6)
+  userId       Int?       @unique(map: "cart_userid_unique")
+  totalAmount  Int?       @default(0)
+  token        String?    @db.VarChar(255)
+  user         User?      @relation(fields: [userId], references: [id], onUpdate: NoAction, map: "cart_userid_foreign")
+  cartItems    CartItem[]
 }
 
 model CartItem {
   id                  Int                   @id @default(autoincrement())
-  productItemId       Int
+  date_created        DateTime?             @db.Timestamptz(6)
+  date_updated        DateTime?             @db.Timestamptz(6)
+  quantity            Int?
+  productItemId       Int?
   cartId              Int?
-  quantity            Int?                  @default(1)
-  createdAt           DateTime              @default(now())
-  updatedAt           DateTime              @updatedAt
   cart                Cart?                 @relation(fields: [cartId], references: [id], onUpdate: NoAction, map: "cartitem_cartid_foreign")
-  productItem         ProductItem          @relation(fields: [productItemId], references: [id], onUpdate: NoAction, map: "cartitem_productitem_foreign")
-  Ingredient_CartItem Ingredient_CartItem[]
-  // ingredients Ingredient[]
-}
-
-model Ingredient_CartItem {
-  id           Int         @id @default(autoincrement())
-  ingredientId Int?
-  cartItemId   Int?
-  CartItem     CartItem?   @relation(fields: [cartItemId], references: [id], onUpdate: NoAction, map: "ingredient_cartitem_cartitemid_foreign")
-  Ingredient   Ingredient? @relation(fields: [ingredientId], references: [id], onUpdate: NoAction, map: "ingredient_cartitem_ingredientid_foreign")
+  productItem         ProductItem?          @relation(fields: [productItemId], references: [id], onUpdate: NoAction, map: "cartitem_productitem_foreign")
+  CartItem_Ingredient CartItem_Ingredient[]
 }
 
 model Order {
-  id          Int         @id @default(autoincrement())
-  userId      Int?
-  token       String?     @db.VarChar(255)
-  createdAt   DateTime?   @db.Timestamp(6)
-  updatedAt   DateTime?   @updatedAt @db.Timestamp(6)
-  totalAmount Int?
-  status      OrderStatus 
-  paimentId   String?     @db.VarChar(255)
-  items       Json       @db.Json
-  fullName    String?     @db.VarChar(255)
-  email       String     @db.VarChar(255)
-  address     String?     @db.VarChar(255)
-  phone       String?     @db.VarChar(255)
-  comment     String?     @db.VarChar(255)
-  user        User?       @relation(fields: [userId], references: [id], onUpdate: NoAction, map: "order_userid_foreign")
+  id           Int           @id @default(autoincrement())
+  date_created DateTime?     @db.Timestamptz(6)
+  date_updated DateTime?     @db.Timestamptz(6)
+  userId       Int?
+  totalAmount  Int
+  token        String?       @db.VarChar(255)
+  paimentId    String?       @db.VarChar(255)
+  items        Json?         @db.Json
+  fullName     String?       @db.VarChar(255)
+  address      String?       @db.VarChar(255)
+  phone        String?       @db.VarChar(255)
+  comment      String?       @db.VarChar(255)
+  email        String?       @db.VarChar(255)
+  user         User?         @relation(fields: [userId], references: [id], onUpdate: NoAction, map: "order_userid_foreign")
+  OrderStatus  OrderStatus[]
 }
 
 model VerificationCode {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  userId    Int       @unique(map: "verificationcode_userid_unique")
-  code      String   @unique @db.VarChar(255)
-  User      User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "verificationcode_userid_foreign")
-
-  @@unique([userId, code])
-}
-
-model ProductIngredient {
-  id           Int         @id @default(autoincrement())
-  productId    Int?
-  ingredientId Int?
-  Ingredient   Ingredient? @relation(fields: [ingredientId], references: [id], onUpdate: NoAction, map: "productingredient_ingredientid_foreign")
-  Product      Product?    @relation(fields: [productId], references: [id], onUpdate: NoAction, map: "productingredient_productid_foreign")
+  id                                           Int       @id @default(autoincrement())
+  date_created                                 DateTime? @db.Timestamptz(6)
+  date_updated                                 DateTime? @db.Timestamptz(6)
+  code                                         String?   @db.VarChar(255)
+  User_User_VerificationCodeToVerificationCode User?     @relation("User_VerificationCodeToVerificationCode")
 }
 
 model Story {
-    id              Int    @id @default(autoincrement())
-    previewImageUrl String
-
-    items StoryItem[]
-
-    createdAt DateTime @default(now())
+  id              Int         @id @default(autoincrement())
+  date_created    DateTime?   @db.Timestamptz(6)
+  date_updated    DateTime?   @db.Timestamptz(6)
+  previewImageUrl String?     @db.VarChar(255)
+  items           StoryItem[]
 }
 
 model StoryItem {
-    id Int @id @default(autoincrement())
-
-    storyId Int
-    story   Story @relation(fields: [storyId], references: [id])
-
-    sourceUrl String
-
-    createdAt DateTime @default(now())
+  id           Int       @id @default(autoincrement())
+  date_created DateTime? @db.Timestamptz(6)
+  date_updated DateTime? @db.Timestamptz(6)
+  sourceUrl    String?   @db.VarChar(255)
+  storyId      Int?
+  story        Story?    @relation(fields: [storyId], references: [id], onUpdate: NoAction, map: "storyitem_storyid_foreign")
 }
 
-enum OrderStatus {
-  PENDING
-  SUCCEEDED
-  CANCELLED
+model CartItem_Ingredient {
+  id            Int         @id @default(autoincrement())
+  CartItem_id   Int?
+  Ingredient_id Int?
+  CartItem      CartItem?   @relation(fields: [CartItem_id], references: [id], onUpdate: NoAction, map: "cartitem_ingredient_cartitem_id_foreign")
+  Ingredient    Ingredient? @relation(fields: [Ingredient_id], references: [id], onUpdate: NoAction, map: "cartitem_ingredient_ingredient_id_foreign")
 }
 
-enum UserRole {
-  USER
-  ADMIN
+model OrderStatus {
+  id         Int     @id @default(autoincrement())
+  statusName String? @default("PENDING") @db.VarChar(255)
+  orderId    Int?
+  Order      Order?  @relation(fields: [orderId], references: [id], onUpdate: NoAction, map: "orderstatus_orderid_foreign")
+}
+
+model Product_Ingredient {
+  id            Int         @id @default(autoincrement())
+  Product_id    Int?
+  Ingredient_id Int?
+  Ingredient    Ingredient? @relation(fields: [Ingredient_id], references: [id], onUpdate: NoAction, map: "product_ingredient_ingredient_id_foreign")
+  Product       Product?    @relation(fields: [Product_id], references: [id], onUpdate: NoAction, map: "product_ingredient_product_id_foreign")
+}
+
+model UserRole {
+  id       Int     @id @default(autoincrement())
+  roleName String? @default("USER") @db.VarChar(255)
+}
+
+model directus_access {
+  id                String            @id @db.Uuid
+  role              String?           @db.Uuid
+  user              String?           @db.Uuid
+  policy            String            @db.Uuid
+  sort              Int?
+  directus_policies directus_policies @relation(fields: [policy], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "directus_access_policy_foreign")
+  directus_roles    directus_roles?   @relation(fields: [role], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "directus_access_role_foreign")
+  directus_users    directus_users?   @relation(fields: [user], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "directus_access_user_foreign")
+}
+
+model directus_policies {
+  id                   String                 @id @db.Uuid
+  name                 String                 @db.VarChar(100)
+  icon                 String                 @default("badge") @db.VarChar(64)
+  description          String?
+  ip_access            String?
+  enforce_tfa          Boolean                @default(false)
+  admin_access         Boolean                @default(false)
+  app_access           Boolean                @default(false)
+  directus_access      directus_access[]
+  directus_permissions directus_permissions[]
 }

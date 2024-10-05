@@ -447,8 +447,8 @@ CREATE TABLE "User" (
     "fullName" VARCHAR(255),
     "email" VARCHAR(255),
     "password" VARCHAR(255),
-    "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3),
+    "date_created" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "date_updated" TIMESTAMP(3),
     "hash" VARCHAR(255),
     "role" "UserRole" NOT NULL DEFAULT 'USER',
     "socialNetwork" VARCHAR(255),
@@ -463,9 +463,9 @@ CREATE TABLE "User" (
 CREATE TABLE "Product" (
     "id" SERIAL NOT NULL,
     "name" VARCHAR(255) NOT NULL,
-    "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "date_created" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
     "imageUrl" TEXT NOT NULL,
-    "updatedAt" TIMESTAMP(3),
+    "date_updated" TIMESTAMP(3),
     "categoryId" INTEGER,
 
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
@@ -475,8 +475,8 @@ CREATE TABLE "Product" (
 CREATE TABLE "Category" (
     "id" SERIAL NOT NULL,
     "name" VARCHAR(255),
-    "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3),
+    "date_created" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "date_updated" TIMESTAMP(3),
 
     CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
 );
@@ -485,8 +485,8 @@ CREATE TABLE "Category" (
 CREATE TABLE "Ingredient" (
     "id" SERIAL NOT NULL,
     "name" VARCHAR(255) NOT NULL,
-    "updatedAt" TIMESTAMP(3),
-    "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "date_updated" TIMESTAMP(3),
+    "date_created" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
     "price" INTEGER,
     "imageUrl" VARCHAR(255),
 
@@ -500,7 +500,7 @@ CREATE TABLE "ProductItem" (
     "size" INTEGER,
     "productId" INTEGER,
     "productType" INTEGER,
-    "createdAt" TIMESTAMP(6),
+    "date_created" TIMESTAMP(6),
 
     CONSTRAINT "ProductItem_pkey" PRIMARY KEY ("id")
 );
@@ -508,8 +508,8 @@ CREATE TABLE "ProductItem" (
 -- CreateTable
 CREATE TABLE "Cart" (
     "id" SERIAL NOT NULL,
-    "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3),
+    "date_created" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "date_updated" TIMESTAMP(3),
     "totalAmount" INTEGER,
     "token" VARCHAR(255),
     "userId" INTEGER,
@@ -523,8 +523,8 @@ CREATE TABLE "CartItem" (
     "productItemId" INTEGER,
     "cartId" INTEGER,
     "quantity" INTEGER DEFAULT 1,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "date_created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "date_updated" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "CartItem_pkey" PRIMARY KEY ("id")
 );
@@ -543,8 +543,8 @@ CREATE TABLE "Order" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER,
     "token" VARCHAR(255),
-    "createdAt" TIMESTAMP(6),
-    "updatedAt" TIMESTAMP(6),
+    "date_created" TIMESTAMP(6),
+    "date_updated" TIMESTAMP(6),
     "totalAmount" INTEGER,
     "status" "OrderStatus" NOT NULL,
     "paimentId" VARCHAR(255),
@@ -561,7 +561,7 @@ CREATE TABLE "Order" (
 -- CreateTable
 CREATE TABLE "VerificationCode" (
     "id" SERIAL NOT NULL,
-    "createdAt" TIMESTAMP(6),
+    "date_created" TIMESTAMP(6),
     "userId" INTEGER NOT NULL,
     "code" VARCHAR(255),
 
@@ -569,12 +569,12 @@ CREATE TABLE "VerificationCode" (
 );
 
 -- CreateTable
-CREATE TABLE "ProductIngredient" (
+CREATE TABLE "Product_Ingredient" (
     "id" SERIAL NOT NULL,
     "productId" INTEGER,
     "ingredientId" INTEGER,
 
-    CONSTRAINT "ProductIngredient_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Product_Ingredient_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -752,8 +752,8 @@ ALTER TABLE "Order" ADD CONSTRAINT "order_userid_foreign" FOREIGN KEY ("userId")
 ALTER TABLE "VerificationCode" ADD CONSTRAINT "verificationcode_userid_foreign" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "ProductIngredient" ADD CONSTRAINT "productingredient_ingredientid_foreign" FOREIGN KEY ("ingredientId") REFERENCES "Ingredient"("id") ON DELETE SET NULL ON UPDATE NO ACTION;
+ALTER TABLE "Product_Ingredient" ADD CONSTRAINT "Product_Ingredient_ingredientid_foreign" FOREIGN KEY ("ingredientId") REFERENCES "Ingredient"("id") ON DELETE SET NULL ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "ProductIngredient" ADD CONSTRAINT "productingredient_productid_foreign" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE SET NULL ON UPDATE NO ACTION;
+ALTER TABLE "Product_Ingredient" ADD CONSTRAINT "Product_Ingredient_productid_foreign" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE SET NULL ON UPDATE NO ACTION;
 

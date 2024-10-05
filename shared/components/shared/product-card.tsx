@@ -7,7 +7,7 @@ import { Title } from './title'
 import { Button } from '../ui'
 import { Plus } from 'lucide-react'
 import { Ingredient } from '@prisma/client'
-import { ProductIngredientWithPayload } from '@/@types/prisma'
+import { Product_IngredientWithPayload } from '@/@types/prisma'
 
 interface ProductCardProps {
     id: number
@@ -15,7 +15,7 @@ interface ProductCardProps {
     price: number //стоимость
     imageUrl: string //ссылка на картинку
     // ingredients: Ingredient[]
-    ingredients: ProductIngredientWithPayload[]
+    ingredients: Product_IngredientWithPayload[]
     className?: string
 }
 

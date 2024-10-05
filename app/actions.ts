@@ -210,7 +210,7 @@ export async function registerUser(body: Prisma.UserCreateInput) {//данные
             data: {
                 code,
                 userId: createdUser.id,
-                // createdAt: new Date(),
+                // date_created: new Date(),
             },
         });
 

@@ -63,7 +63,7 @@ async function up() {
       imageUrl:
         "https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp",
       categoryId: 1,
-      ProductIngredient: {
+      Product_Ingredient: {
         create: [
           { Ingredient: { connect: ingredients[0] } },
           { Ingredient: { connect: ingredients[1] } },
@@ -81,7 +81,7 @@ async function up() {
       imageUrl:
         "https://media.dodostatic.net/image/r:233x233/11EE7D610CF7E265B7C72BE5AE757CA7.webp",
       categoryId: 1,
-      ProductIngredient: {
+      Product_Ingredient: {
         create: [
           { Ingredient: { connect: ingredients[5] } },
           { Ingredient: { connect: ingredients[6] } },
@@ -99,7 +99,7 @@ async function up() {
       imageUrl:
         "https://media.dodostatic.net/image/r:584x584/11EE7D61706D472F9A5D71EB94149304.webp",
       categoryId: 1,
-      ProductIngredient: {
+      Product_Ingredient: {
         create: [
           { Ingredient: { connect: ingredients[10] } },
           { Ingredient: { connect: ingredients[11] } },

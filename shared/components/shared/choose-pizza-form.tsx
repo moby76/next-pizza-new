@@ -19,7 +19,7 @@ interface ChoosePizzaFormProps {
     name: string;
     // items: ProductItem[]
     items: ProductWithRelations['ProductItem']//варианты пицц(мал., сред. и больш. / тонкое тесто и традиционное тесто)
-    ingredients: ProductWithRelations['ProductIngredient']//ingredients получаем из типа ProductWithRelations
+    ingredients: ProductWithRelations['Product_Ingredient']//ingredients получаем из типа ProductWithRelations
     loading?: boolean;//получим состояние загрузки из компонента модального окна для дальнейшей передачи его в состояние компонента кнопки < Button />
     onSubmit: (itemId: number, ingredients: number[]) => void;//функция не возвращает ничего. Отрабатывает в родительском компоненте chooseProductModal при нажатии на кнопку "Добавить в корзину". отправляет параметры 1(itemId) и 2(ingredients)  для добавления пиццы. ОБРАТНО в < ChooseProductModal / >? а затем в store?
     className?: string;
@@ -32,7 +32,7 @@ export const ChoosePizzaForm = ({
     name,
     items,
     imageUrl,
-    // productIngredients,
+    // Product_Ingredients,
     ingredients,
     loading,
     onSubmit,

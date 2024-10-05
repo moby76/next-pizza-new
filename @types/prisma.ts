@@ -9,9 +9,9 @@ import { Ingredient, Product, ProductItem, Prisma } from '@prisma/client'
 //items: ProductItem[]; 
 //ingredients: Ingredient[] }
 
-//NOTE - Для извлечения ингредиентов через соединительную таблицу productIngredients используем метод Prisma: GetPayload
+//NOTE - Для извлечения ингредиентов через соединительную таблицу Product_Ingredients используем метод Prisma: GetPayload
 //создать тип включающий в себя ингредиенты
-export type ProductIngredientWithPayload = Prisma.ProductIngredientGetPayload<{
+export type Product_IngredientWithPayload = Prisma.Product_IngredientGetPayload<{
     include: {
         Ingredient: true
     }
@@ -19,7 +19,7 @@ export type ProductIngredientWithPayload = Prisma.ProductIngredientGetPayload<{
 
 export type ProductWithRelations = Product & {
     ProductItem: ProductItem[]
-    // ProductIngredient: ({ Ingredient: { id: number; name: string; updatedAt: Date | null; createdAt: Date | null; price: number | null; imageUrl: string | null; } | null; } & { id: number; productId: number | null; ingredientId: number | null; })[];
-    ProductIngredient: ProductIngredientWithPayload[]
+    // Product_Ingredient: ({ Ingredient: { id: number; name: string; date_updated: Date | null; date_created: Date | null; price: number | null; imageUrl: string | null; } | null; } & { id: number; productId: number | null; ingredientId: number | null; })[];
+    Product_Ingredient: Product_IngredientWithPayload[]
     
 }

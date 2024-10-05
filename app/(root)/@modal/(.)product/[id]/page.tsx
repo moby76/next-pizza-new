@@ -14,7 +14,7 @@ export default async function ProductModalPage({ params: { id } }: { params: { i
         },
         include: {
             // -------- Мой код -------- //
-            ProductIngredient: {
+            Product_Ingredient: {
                 // orderBy: { id: 'desc' },
                 include: {
                     Ingredient: true

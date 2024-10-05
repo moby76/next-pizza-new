@@ -1,6 +1,6 @@
 //Функция для вычисления общей стоимости позиции в корзине в зависимости от количества
 
-// import { ProductIngredients } from '@/@types/prisma';
+// import { Product_Ingredients } from '@/@types/prisma';
 import { CartItemDTO } from '../services/dto/cart.dto';
 
 

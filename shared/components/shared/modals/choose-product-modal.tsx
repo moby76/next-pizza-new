@@ -6,7 +6,7 @@
 import { Dialog } from '@/shared/components/ui'
 import { DialogContent, DialogDescription, DialogTitle } from '@/shared/components/ui/dialog'
 import React from 'react'
-//import { Prisma, Product, ProductIngredient, ProductItem, Ingredient } from '@prisma/client' //типизацию для продуктов из схемы клиента призмы
+//import { Prisma, Product, Product_Ingredient, ProductItem, Ingredient } from '@prisma/client' //типизацию для продуктов из схемы клиента призмы
 import { cn } from '@/shared/lib/utils'
 import { useRouter } from 'next/navigation'
 import { ChooseProductForm } from '../choose-product-form'

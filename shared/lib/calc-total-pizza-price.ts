@@ -2,7 +2,7 @@
 
 import { Ingredient, ProductItem } from "@prisma/client"
 import { PizzaSize, PizzaType } from "../constants/pizza"
-// import { productIngredients } from "../components/shared/choose-pizza-form"
+// import { Product_Ingredients } from "../components/shared/choose-pizza-form"
 
 /**
  * Функция для подсчета общей стоимости пиццы

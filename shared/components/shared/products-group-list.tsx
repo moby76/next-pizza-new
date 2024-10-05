@@ -8,7 +8,7 @@ import { Title } from './title'
 import { cn } from '@/shared/lib/utils'
 import { ProductCard } from './product-card'
 import { useCategoryStore } from '@/shared/store';
-import { ProductIngredientWithPayload, ProductWithRelations } from '@/@types/prisma';
+import { Product_IngredientWithPayload, ProductWithRelations } from '@/@types/prisma';
 
 interface ProductGroupListProps {
     title: string
@@ -62,7 +62,7 @@ export const ProductGroupList = ({
                         name={product.name}
                         imageUrl={product.imageUrl}
                         price={product.ProductItem[0]?.price ?? 0}//стоимость вариантов продукта(массив). отображаем стоимость первого(!) элемента массива. именно она будет отображаться в карточке
-                        ingredients={product.ProductIngredient}
+                        ingredients={product.Product_Ingredient}
                     />
                 ))}
 
