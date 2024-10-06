@@ -41,7 +41,7 @@ export const findPizzas = async (params: GetSearchParams) => {//
                     Product_Ingredient: ingredientsIdArr //если есть массив ingredientsIdArr ТО:
                         ? {//отфильтровать
                             some: { // найти какие-то соответствия
-                                ingredientId: {// id ингредиента в таблице Product_Ingredient
+                                Ingredient_id: {// id ингредиента в таблице Product_Ingredient
                                     in: ingredientsIdArr // данным из массива ingredientsIdArr
                                 }
                             }

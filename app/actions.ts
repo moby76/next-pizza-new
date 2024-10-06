@@ -36,7 +36,7 @@ export async function createOrder(data: CheckoutFormSchemaValues) {//данны�
                 user: true,
                 cartItems: {
                     include: {
-                        Ingredient_CartItem: {
+                        CartItem_Ingredient: {
                             include: {
                                 Ingredient: true
                             }
@@ -69,7 +69,13 @@ export async function createOrder(data: CheckoutFormSchemaValues) {//данны�
                 address: data.address,//создаётся
                 comment: data.comment,//создаётся
                 totalAmount: userCart.totalAmount,//сумму получаем из корзины. //NOTE - После создания заказа корзина очичается
-                status: OrderStatus.PENDING,//первоначальный статус - В Ожидании
+                // status: OrderStatus.PENDING,//первоначальный статус - В Ожидании
+                //NOTE - Пытаюсь присвоить заказу статус из таблицы БД OrederStatus. Получается только через ID = 1 что соотв. PENDING 
+                OrderStatus: {
+                    connect: {
+                        id: 1
+                    }
+                },
                 items: JSON.stringify(userCart.cartItems),//получаем из корзины и преобразовав в строчный JSON-объект
             }
         })
@@ -199,7 +205,7 @@ export async function registerUser(body: Prisma.UserCreateInput) {//данные
                 password: hashSync(body.password, 10),
             },
         });
-        
+
         // **** теперь нужно подтвердить пользователя через почту
 
         // 1. сгенерировать код подтверждения
