@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
                                 product: true//включая базовый продукт этого варианта
                             }
                         },
-                        Ingredient_CartItem: {// ингредиенты добавленные при выборе пиццы в корзину
+                        CartItem_Ingredient: {// ингредиенты добавленные при выборе пиццы в корзину
                             include: {
                                 Ingredient: true
                             }
@@ -85,7 +85,7 @@ export async function POST(req: NextRequest) {
             where: {
                 cartId: userCart.id,
                 productItemId: data.productItemId,//data.productItemId передаётся из браузера на сервер(используется интерфейс CreateCartItemValues). вычисляется в хуке usePizzaOptions и возвращается через ф-циу onSubmit уже в виде аргумента productItemId
-                Ingredient_CartItem: {//если для существующего cartItemId(например 101)
+                CartItem_Ingredient: {//если для существующего cartItemId(например 101)
                     every: {//каждый
                         // some: {//какой-то 
                         Ingredient: {//ингредиент
@@ -99,7 +99,7 @@ export async function POST(req: NextRequest) {
                     }
                 },
                 AND: {
-                    Ingredient_CartItem: {
+                    CartItem_Ingredient: {
                         none: {
                             Ingredient: {
                                 id: {
@@ -112,7 +112,7 @@ export async function POST(req: NextRequest) {
                 },
             },
             include: {
-                Ingredient_CartItem: {
+                CartItem_Ingredient: {
                     include: {
                         Ingredient: true
                     }
@@ -137,8 +137,8 @@ export async function POST(req: NextRequest) {
                     cartId: userCart.id,
                     productItemId: data.productItemId,
                     quantity: 1,
-                    Ingredient_CartItem: {
-                        create: data.ingredients?.map((id) => ({ ingredientId: id }))//создаётся новая запись для поля ingredientId в таблице Ingredient_CartItem. При этом id для строки создаётся автоматически  (???)
+                    CartItem_Ingredient: {
+                        create: data.ingredients?.map((id) => ({ Ingredient_id: id }))//создаётся новая запись для поля ingredientId в таблице Ingredient_CartItem. При этом id для строки создаётся автоматически  (???)
                     }
                 }
             })
