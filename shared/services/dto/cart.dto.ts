@@ -1,9 +1,9 @@
 //интерфейс расширяющий информацию о корзине
 
 import { ingredients } from "@/prisma/constants";
-import { Cart, CartItem, Ingredient, Ingredient_CartItem, Prisma, Product, Product_Ingredient, ProductItem } from "@prisma/client";
+import { Cart, CartItem, Ingredient, CartItem_Ingredient, Prisma, Product, Product_Ingredient, ProductItem } from "@prisma/client";
 
-type IngredientsInCartitem = Prisma.Ingredient_CartItemGetPayload<{
+type IngredientsInCartitem = Prisma.CartItem_IngredientGetPayload<{
 	include: {
 		Ingredient: true
 	}
