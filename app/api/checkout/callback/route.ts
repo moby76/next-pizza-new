@@ -9,8 +9,9 @@ import { prisma } from "@/prisma/prisma-client";
 import { PayOrderSuccessTemplate } from "@/shared/components/shared/email-templates/pay-order-cuccess";
 import { sendEmail } from "@/shared/lib";
 import { CartItemDTO } from "@/shared/services/dto/cart.dto";
+import { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-import { OrderStatus } from '@prisma/client';
+// import { OrderStatus } from '@prisma/client';
 
 export async function POST(req: NextRequest) {
 
@@ -42,9 +43,10 @@ export async function POST(req: NextRequest) {
                 id: order.id
             },
             data: {
-                status: isSucceeded ? OrderStatus.SUCCEEDED : OrderStatus.CANCELLED
-                // status: "SUCCEEDED"
-            }
+                status: {
+                    set: isSucceeded ? 'SUCCEEDED' : 'CANCELLED'
+                }
+            } as Prisma.OrderUpdateInput
         })
 
         // **** получить все элементы из этого заказа
