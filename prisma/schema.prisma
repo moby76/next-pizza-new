@@ -452,7 +452,7 @@ model User {
   fullName         String            @db.VarChar(255)
   email            String            @db.VarChar(255)
   password         String            @db.VarChar(255)
-  role             String?           @default("USER") @db.VarChar(255)
+  role             String           @default("USER") @db.VarChar(255)
   socialNetwork    String?           @db.VarChar(255)
   socialNetworkId  String?           @db.VarChar(255)
   isVerified       Boolean?          @default(false)
@@ -464,31 +464,31 @@ model User {
 
 model Product {
   id                 Int                  @id @default(autoincrement())
-  date_created       DateTime?            @db.Timestamptz(6)
-  date_updated       DateTime?            @db.Timestamptz(6)
+  date_created       DateTime            @db.Timestamptz(6)
+  date_updated       DateTime            @db.Timestamptz(6)
   name               String               @db.VarChar(255)
-  imageUrl           String?              @db.VarChar(255)
-  categoryId         Int?
-  Category           Category?            @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "product_categoryid_foreign")
+  imageUrl           String              @db.VarChar(255)
+  categoryId         Int
+  Category           Category            @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "product_categoryid_foreign")
   ProductItem        ProductItem[]
   Product_Ingredient Product_Ingredient[]
 }
 
 model Category {
   id           Int       @id @default(autoincrement())
-  date_created DateTime? @db.Timestamptz(6)
-  date_updated DateTime? @db.Timestamptz(6)
-  name         String?   @db.VarChar(255)
+  date_created DateTime @db.Timestamptz(6)
+  date_updated DateTime @db.Timestamptz(6)
+  name         String   @db.VarChar(255)
   Product      Product[]
 }
 
 model Ingredient {
   id                  Int                   @id @default(autoincrement())
-  date_created        DateTime?             @db.Timestamptz(6)
-  date_updated        DateTime?             @db.Timestamptz(6)
+  date_created        DateTime             @db.Timestamptz(6)
+  date_updated        DateTime             @db.Timestamptz(6)
   name                String                @db.VarChar(255)
-  price               Int?
-  imageUrl            String?               @db.VarChar(255)
+  price               Int
+  imageUrl            String               @db.VarChar(255)
   CartItem_Ingredient CartItem_Ingredient[]
   Product_Ingredient  Product_Ingredient[]
 }
@@ -497,79 +497,79 @@ model ProductItem {
   id           Int        @id @default(autoincrement())
   date_created DateTime?  @db.Timestamptz(6)
   date_updated DateTime?  @db.Timestamptz(6)
-  price        Int?
+  price        Int
   size         Int?
   productType  Int?
-  productId    Int?
+  productId    Int
   cartItems    CartItem[]
-  product      Product?   @relation(fields: [productId], references: [id], onUpdate: NoAction, map: "productitem_product_foreign")
+  product      Product   @relation(fields: [productId], references: [id], onUpdate: NoAction, map: "productitem_product_foreign")
 }
 
 model Cart {
   id           Int        @id @default(autoincrement())
-  date_created DateTime?  @db.Timestamptz(6)
-  date_updated DateTime?  @db.Timestamptz(6)
+  date_created DateTime  @db.Timestamptz(6)
+  date_updated DateTime  @db.Timestamptz(6)
   userId       Int?       @unique(map: "cart_userid_unique")
-  totalAmount  Int?       @default(0)
-  token        String?    @db.VarChar(255)
+  totalAmount  Int       @default(0)
+  token        String    @db.VarChar(255)
   user         User?      @relation(fields: [userId], references: [id], onUpdate: NoAction, map: "cart_userid_foreign")
   cartItems    CartItem[]
 }
 
 model CartItem {
   id                  Int                   @id @default(autoincrement())
-  date_created        DateTime?             @db.Timestamptz(6)
-  date_updated        DateTime?             @db.Timestamptz(6)
-  quantity            Int?
-  productItemId       Int?
-  cartId              Int?
-  cart                Cart?                 @relation(fields: [cartId], references: [id], onUpdate: NoAction, map: "cartitem_cartid_foreign")
-  productItem         ProductItem?          @relation(fields: [productItemId], references: [id], onUpdate: NoAction, map: "cartitem_productitem_foreign")
+  date_created        DateTime             @db.Timestamptz(6)
+  date_updated        DateTime             @db.Timestamptz(6)
+  quantity            Int
+  productItemId       Int
+  cartId              Int
+  cart                Cart                 @relation(fields: [cartId], references: [id], onUpdate: NoAction, map: "cartitem_cartid_foreign")
+  productItem         ProductItem          @relation(fields: [productItemId], references: [id], onUpdate: NoAction, map: "cartitem_productitem_foreign")
   CartItem_Ingredient CartItem_Ingredient[]
 }
 
 model Order {
   id           Int           @id @default(autoincrement())
-  date_created DateTime?     @db.Timestamptz(6)
-  date_updated DateTime?     @db.Timestamptz(6)
+  date_created DateTime     @db.Timestamptz(6)
+  date_updated DateTime     @db.Timestamptz(6)
   userId       Int?
   totalAmount  Int
-  token        String?       @db.VarChar(255)
+  token        String       @db.VarChar(255)
   paimentId    String?       @db.VarChar(255)
-  items        Json?         @db.Json
-  fullName     String?       @db.VarChar(255)
-  address      String?       @db.VarChar(255)
-  phone        String?       @db.VarChar(255)
+  items        Json         @db.Json
+  fullName     String       @db.VarChar(255)
+  address      String       @db.VarChar(255)
+  phone        String       @db.VarChar(255)
   comment      String?       @db.VarChar(255)
-  email        String?       @db.VarChar(255)
+  email        String       @db.VarChar(255)
   user         User?         @relation(fields: [userId], references: [id], onUpdate: NoAction, map: "order_userid_foreign")
   OrderStatus  OrderStatus[]
 }
 
 model VerificationCode {
   id           Int       @id @default(autoincrement())
-  date_created DateTime? @db.Timestamptz(6)
-  date_updated DateTime? @db.Timestamptz(6)
-  code         String?   @db.VarChar(255)
-  userId       Int?      @unique(map: "verificationcode_userid_unique")
-  User         User?     @relation(fields: [userId], references: [id], onUpdate: NoAction, map: "verificationcode_userid_foreign")
+  date_created DateTime @db.Timestamptz(6)
+  date_updated DateTime @db.Timestamptz(6)
+  code         String   @db.VarChar(255)
+  userId       Int      @unique(map: "verificationcode_userid_unique")
+  User         User     @relation(fields: [userId], references: [id], onUpdate: NoAction, map: "verificationcode_userid_foreign")
 }
 
 model Story {
   id              Int         @id @default(autoincrement())
-  date_created    DateTime?   @db.Timestamptz(6)
-  date_updated    DateTime?   @db.Timestamptz(6)
-  previewImageUrl String?     @db.VarChar(255)
+  date_created    DateTime   @db.Timestamptz(6)
+  date_updated    DateTime   @db.Timestamptz(6)
+  previewImageUrl String     @db.VarChar(255)
   items           StoryItem[]
 }
 
 model StoryItem {
   id           Int       @id @default(autoincrement())
-  date_created DateTime? @db.Timestamptz(6)
-  date_updated DateTime? @db.Timestamptz(6)
-  sourceUrl    String?   @db.VarChar(255)
-  storyId      Int?
-  story        Story?    @relation(fields: [storyId], references: [id], onUpdate: NoAction, map: "storyitem_storyid_foreign")
+  date_created DateTime @db.Timestamptz(6)
+  date_updated DateTime @db.Timestamptz(6)
+  sourceUrl    String   @db.VarChar(255)
+  storyId      Int
+  story        Story    @relation(fields: [storyId], references: [id], onUpdate: NoAction, map: "storyitem_storyid_foreign")
 }
 
 model CartItem_Ingredient {
