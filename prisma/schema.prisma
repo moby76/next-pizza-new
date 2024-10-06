@@ -507,7 +507,7 @@ model ProductItem {
 
 model Cart {
   id           Int        @id @default(autoincrement())
-  date_created DateTime   @db.Timestamptz(6)
+  date_created DateTime?  @default(now()) @db.Timestamptz(6)
   date_updated DateTime?  @db.Timestamptz(6)
   userId       Int?       @unique(map: "cart_userid_unique")
   totalAmount  Int        @default(0)
