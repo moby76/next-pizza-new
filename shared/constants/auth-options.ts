@@ -21,7 +21,7 @@ export const authOptions: AuthOptions = {
             //при входе через GitHub нужно: 
             //1. проверить есть-ли такой пользователь в БД, ес есть то просто авторизация
             //2. если такого польз. нет в БД, то создать его/зарегестрировать
-            profile(profile) {//функция провайдера GH возвращает данные из профиля пользователя на GitHub
+            async profile(profile) {//функция провайдера GH возвращает данные из профиля пользователя на GitHub
                 return {
                     id: profile.id,
                     name: profile.name || profile.login,
