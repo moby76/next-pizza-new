@@ -456,10 +456,10 @@ model User {
   socialNetworkId  String?           @db.VarChar(255)
   isVerified       Boolean?          @default(false)
   verifiedDate     DateTime?         @db.Timestamp(6)
+  role             EnumUserRole      @default(USER)
   cart             Cart?
   orders           Order[]
   VerificationCode VerificationCode?
-  role EnumUserRole @default(USER)
 }
 
 model Product {
@@ -625,6 +625,6 @@ model directus_policies {
 }
 
 enum EnumUserRole {
-    USER
-    ADMIN
+  USER
+  ADMIN
 }

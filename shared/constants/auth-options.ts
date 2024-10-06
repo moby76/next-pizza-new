@@ -4,8 +4,7 @@ import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/prisma/prisma-client";
 import { compare, hashSync } from "bcrypt";
-import { UserRole } from "@prisma/client";
-import {  } from 
+import { EnumUserRole } from "@prisma/client";
 
 export const authOptions: AuthOptions = {
     //секрет который позволит генерироваться нашему jwt-токену
@@ -28,7 +27,7 @@ export const authOptions: AuthOptions = {
                     name: profile.name || profile.login,
                     email: profile.email,
                     image: profile.avatar_url,
-                    role: 'USER' as unknown as UserRole, //добавим своё доп. значение role = 'USER' из enum prisma????
+                    role: 'USER' as EnumUserRole, //добавим своё доп. значение role = 'USER' из enum prisma????
                 }
             }
         }),
