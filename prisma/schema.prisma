@@ -448,7 +448,7 @@ model directus_webhooks {
 model User {
   id               Int               @id @default(autoincrement())
   date_created     DateTime          @db.Timestamptz(6)
-  date_updated     DateTime          @db.Timestamptz(6)
+  date_updated     DateTime?          @db.Timestamptz(6)
   fullName         String            @db.VarChar(255)
   email            String            @db.VarChar(255)
   password         String            @db.VarChar(255)
@@ -465,7 +465,7 @@ model User {
 model Product {
   id                 Int                  @id @default(autoincrement())
   date_created       DateTime            @db.Timestamptz(6)
-  date_updated       DateTime            @db.Timestamptz(6)
+  date_updated       DateTime?            @db.Timestamptz(6)
   name               String               @db.VarChar(255)
   imageUrl           String              @db.VarChar(255)
   categoryId         Int
@@ -477,7 +477,7 @@ model Product {
 model Category {
   id           Int       @id @default(autoincrement())
   date_created DateTime @db.Timestamptz(6)
-  date_updated DateTime @db.Timestamptz(6)
+  date_updated DateTime? @db.Timestamptz(6)
   name         String   @db.VarChar(255)
   Product      Product[]
 }
@@ -485,7 +485,7 @@ model Category {
 model Ingredient {
   id                  Int                   @id @default(autoincrement())
   date_created        DateTime             @db.Timestamptz(6)
-  date_updated        DateTime             @db.Timestamptz(6)
+  date_updated        DateTime?             @db.Timestamptz(6)
   name                String                @db.VarChar(255)
   price               Int
   imageUrl            String               @db.VarChar(255)
@@ -495,7 +495,7 @@ model Ingredient {
 
 model ProductItem {
   id           Int        @id @default(autoincrement())
-  date_created DateTime?  @db.Timestamptz(6)
+  date_created DateTime  @db.Timestamptz(6)
   date_updated DateTime?  @db.Timestamptz(6)
   price        Int
   size         Int?
@@ -508,7 +508,7 @@ model ProductItem {
 model Cart {
   id           Int        @id @default(autoincrement())
   date_created DateTime  @db.Timestamptz(6)
-  date_updated DateTime  @db.Timestamptz(6)
+  date_updated DateTime?  @db.Timestamptz(6)
   userId       Int?       @unique(map: "cart_userid_unique")
   totalAmount  Int       @default(0)
   token        String    @db.VarChar(255)
@@ -519,7 +519,7 @@ model Cart {
 model CartItem {
   id                  Int                   @id @default(autoincrement())
   date_created        DateTime             @db.Timestamptz(6)
-  date_updated        DateTime             @db.Timestamptz(6)
+  date_updated        DateTime?            @db.Timestamptz(6)
   quantity            Int
   productItemId       Int
   cartId              Int
@@ -531,7 +531,7 @@ model CartItem {
 model Order {
   id           Int           @id @default(autoincrement())
   date_created DateTime     @db.Timestamptz(6)
-  date_updated DateTime     @db.Timestamptz(6)
+  date_updated DateTime?     @db.Timestamptz(6)
   userId       Int?
   totalAmount  Int
   token        String       @db.VarChar(255)
@@ -549,7 +549,7 @@ model Order {
 model VerificationCode {
   id           Int       @id @default(autoincrement())
   date_created DateTime @db.Timestamptz(6)
-  date_updated DateTime @db.Timestamptz(6)
+  date_updated DateTime? @db.Timestamptz(6)
   code         String   @db.VarChar(255)
   userId       Int      @unique(map: "verificationcode_userid_unique")
   User         User     @relation(fields: [userId], references: [id], onUpdate: NoAction, map: "verificationcode_userid_foreign")
@@ -558,7 +558,7 @@ model VerificationCode {
 model Story {
   id              Int         @id @default(autoincrement())
   date_created    DateTime   @db.Timestamptz(6)
-  date_updated    DateTime   @db.Timestamptz(6)
+  date_updated    DateTime?   @db.Timestamptz(6)
   previewImageUrl String     @db.VarChar(255)
   items           StoryItem[]
 }
@@ -566,7 +566,7 @@ model Story {
 model StoryItem {
   id           Int       @id @default(autoincrement())
   date_created DateTime @db.Timestamptz(6)
-  date_updated DateTime @db.Timestamptz(6)
+  date_updated DateTime? @db.Timestamptz(6)
   sourceUrl    String   @db.VarChar(255)
   storyId      Int
   story        Story    @relation(fields: [storyId], references: [id], onUpdate: NoAction, map: "storyitem_storyid_foreign")
