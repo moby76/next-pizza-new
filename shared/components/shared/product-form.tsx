@@ -60,7 +60,7 @@ export const ProductForm = ({ product, onSubmit: _onSubmit, className }: Product
             < ChoosePizzaForm
                 key={product.id}
                 name={product.name}
-                imageUrl={product.imageUrl}
+                imageUrl={product.imageUrl ?? ''}
                 ingredients={product.Product_Ingredient}//передаётся таблица соединяющая продукт с его ингредиентами
                 items={product.ProductItem}
                 onSubmit={onSubmit}//для формы добавления пиццы передадим ф-цию onAddPizza в onSubmit
@@ -71,7 +71,7 @@ export const ProductForm = ({ product, onSubmit: _onSubmit, className }: Product
         return (
             < ChooseProductForm
                 key={product.id}
-                imageUrl={product.imageUrl}
+                imageUrl={product.imageUrl ?? ''}
                 name={product.name}
                 price={firstItem.price}
                 onSubmit={onSubmit}//для формы добавления продукта передадим ф-цию onAddProduct в onSubmit

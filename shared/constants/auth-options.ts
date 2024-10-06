@@ -27,7 +27,7 @@ export const authOptions: AuthOptions = {
                     name: profile.name || profile.login,
                     email: profile.email,
                     image: profile.avatar_url,
-                    role: 'USER' as UserRole, //добавим своё доп. значение role = 'USER' из enum prisma????
+                    role: 'USER' as unknown as UserRole, //добавим своё доп. значение role = 'USER' из enum prisma????
                 }
             }
         }),

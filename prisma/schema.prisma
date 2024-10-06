@@ -447,12 +447,12 @@ model directus_webhooks {
 
 model User {
   id                                                       Int               @id @default(autoincrement())
-  date_created                                             DateTime?         @db.Timestamptz(6)
-  date_updated                                             DateTime?         @db.Timestamptz(6)
-  fullName                                                 String?           @db.VarChar(255)
-  email                                                    String?           @db.VarChar(255)
-  password                                                 String?           @db.VarChar(255)
-  role                                                     String?           @default("USER") @db.VarChar(255)
+  date_created                                             DateTime          @db.Timestamptz(6)
+  date_updated                                             DateTime          @db.Timestamptz(6)
+  fullName                                                 String           @db.VarChar(255)
+  email                                                    String           @db.VarChar(255)
+  password                                                 String            @db.VarChar(255)
+  role                                                     String           @default("USER") @db.VarChar(255)
   socialNetwork                                            String?           @db.VarChar(255)
   socialNetworkId                                          String?           @db.VarChar(255)
   isVerified                                               Boolean?          @default(false)
@@ -469,8 +469,8 @@ model Product {
   date_updated       DateTime?            @db.Timestamptz(6)
   name               String               @db.VarChar(255)
   imageUrl           String?              @db.VarChar(255)
-  categoryId         Int
-  Category           Category             @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "product_categoryid_foreign")
+  categoryId         Int?
+  Category           Category?            @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "product_categoryid_foreign")
   ProductItem        ProductItem[]
   Product_Ingredient Product_Ingredient[]
 }

@@ -26,8 +26,8 @@ model User {
     orders           Order[]
     verificationCode VerificationCode?
 
-    date_created DateTime @default(now())
-    date_updated DateTime @date_updated
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Category {
@@ -35,8 +35,8 @@ model Category {
     name     String    @unique
     products Product[]
 
-    date_created DateTime @default(now())
-    date_updated DateTime @date_updated
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Product {
@@ -51,8 +51,8 @@ model Product {
     category   Category @relation(fields: [categoryId], references: [id])
     categoryId Int
 
-    date_created DateTime @default(now())
-    date_updated DateTime @date_updated
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model ProductItem {
@@ -78,8 +78,8 @@ model Ingredient {
     products  Product[]
     cartItems CartItem[]
 
-    date_created DateTime @default(now())
-    date_updated DateTime @date_updated
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Cart {
@@ -94,8 +94,8 @@ model Cart {
 
     totalAmount Int @default(0)
 
-    date_created DateTime @default(now())
-    date_updated DateTime @date_updated
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model CartItem {
@@ -111,8 +111,8 @@ model CartItem {
 
     ingredients Ingredient[]
 
-    date_created DateTime @default(now())
-    date_updated DateTime @date_updated
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Order {
@@ -135,8 +135,8 @@ model Order {
     address  String
     comment  String?
 
-    date_created DateTime @default(now())
-    date_updated DateTime @date_updated
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model VerificationCode {
@@ -147,7 +147,7 @@ model VerificationCode {
 
     code String
 
-    date_created DateTime @default(now())
+    createdAt DateTime @default(now())
 
     @@unique([userId, code])
 }
@@ -158,7 +158,7 @@ model Story {
 
     items StoryItem[]
 
-    date_created DateTime @default(now())
+    createdAt DateTime @default(now())
 }
 
 model StoryItem {
@@ -169,7 +169,7 @@ model StoryItem {
 
     sourceUrl String
 
-    date_created DateTime @default(now())
+    createdAt DateTime @default(now())
 }
 
 enum OrderStatus {
