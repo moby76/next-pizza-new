@@ -446,19 +446,20 @@ model directus_webhooks {
 }
 
 model User {
-  id              Int       @id @default(autoincrement())
-  date_created    DateTime  @db.Timestamptz(6)
-  date_updated    DateTime  @db.Timestamptz(6)
-  fullName        String    @db.VarChar(255)
-  email           String    @db.VarChar(255)
-  password        String    @db.VarChar(255)
-  role            String?   @default("USER") @db.VarChar(255)
-  socialNetwork   String?   @db.VarChar(255)
-  socialNetworkId String?   @db.VarChar(255)
-  isVerified      Boolean?  @default(false)
-  verifiedDate    DateTime? @db.Timestamp(6)
-  cart            Cart?
-  orders          Order[]
+  id               Int               @id @default(autoincrement())
+  date_created     DateTime          @db.Timestamptz(6)
+  date_updated     DateTime          @db.Timestamptz(6)
+  fullName         String            @db.VarChar(255)
+  email            String            @db.VarChar(255)
+  password         String            @db.VarChar(255)
+  role             String?           @default("USER") @db.VarChar(255)
+  socialNetwork    String?           @db.VarChar(255)
+  socialNetworkId  String?           @db.VarChar(255)
+  isVerified       Boolean?          @default(false)
+  verifiedDate     DateTime?         @db.Timestamp(6)
+  cart             Cart?
+  orders           Order[]
+  VerificationCode VerificationCode?
 }
 
 model Product {
@@ -550,6 +551,8 @@ model VerificationCode {
   date_created DateTime? @db.Timestamptz(6)
   date_updated DateTime? @db.Timestamptz(6)
   code         String?   @db.VarChar(255)
+  userId       Int?      @unique(map: "verificationcode_userid_unique")
+  User         User?     @relation(fields: [userId], references: [id], onUpdate: NoAction, map: "verificationcode_userid_foreign")
 }
 
 model Story {
