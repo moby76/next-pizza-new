@@ -23,7 +23,7 @@ export const updateCartTotalAmount = async (token: string) => {
                             product: true
                         }
                     },
-                    Ingredient_CartItem: {//добавленные ингредиенты этого варианта
+                    CartItem_Ingredient: {//добавленные ингредиенты этого варианта
                         include: {
                             Ingredient: true
                         }
@@ -71,7 +71,7 @@ export const updateCartTotalAmount = async (token: string) => {
                             product: true
                         }
                     },
-                    Ingredient_CartItem: {
+                    CartItem_Ingredient: {
                         include: {
                             Ingredient: true
                         }
