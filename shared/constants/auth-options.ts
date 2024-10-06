@@ -1,3 +1,5 @@
+'use server'
+
 import { AuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
@@ -5,6 +7,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/prisma/prisma-client";
 import { compare, hashSync } from "bcrypt";
 import { UserRole } from "@prisma/client";
+import {  } from 
 
 export const authOptions: AuthOptions = {
     //секрет который позволит генерироваться нашему jwt-токену
@@ -74,7 +77,7 @@ export const authOptions: AuthOptions = {
                     id: findUser.id,//id 
                     email: findUser.email,
                     name: findUser.fullName,
-                    // role: findUser.role//роль понадобится когда будем работать с DashBoard(дашбоардом) и проверять на уровне дашборда это обычный пользователь или администратор
+                    role: findUser.role//роль понадобится когда будем работать с DashBoard(дашбоардом) и проверять на уровне дашборда это обычный пользователь или администратор
                 }
             }
         })
