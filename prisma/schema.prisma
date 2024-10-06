@@ -452,7 +452,6 @@ model User {
   fullName         String            @db.VarChar(255)
   email            String            @db.VarChar(255)
   password         String            @db.VarChar(255)
-  role             EnumUserRole @default(USER)
   socialNetwork    String?           @db.VarChar(255)
   socialNetworkId  String?           @db.VarChar(255)
   isVerified       Boolean?          @default(false)
@@ -460,6 +459,7 @@ model User {
   cart             Cart?
   orders           Order[]
   VerificationCode VerificationCode?
+  role EnumUserRole @default(USER)
 }
 
 model Product {
