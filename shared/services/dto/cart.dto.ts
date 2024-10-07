@@ -15,7 +15,7 @@ export type CartItemDTO = CartItem & {//вернёт тип CartItem из Prisma
 		product: Product
 	}
 	// ingredients: IngredientsInCartitem[]
-	Ingredient_CartItem: IngredientsInCartitem[]
+	CartItem_Ingredient: IngredientsInCartitem[]
 	totalAmount: number
 };
 

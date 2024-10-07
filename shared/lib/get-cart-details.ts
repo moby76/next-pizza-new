@@ -36,7 +36,7 @@ export const getCartDetails = (data: CartDTO): ReturnProps => {
     pizzaSize: item.productItem.size,//значения для распознования как Пицца
     pizzaType: item.productItem.productType,
     disabled: false,//признак отключения элемента
-    ingredients: item.Ingredient_CartItem.map((ingredient) => ({
+    ingredients: item.CartItem_Ingredient.map((ingredient) => ({
       name: ingredient.Ingredient?.name,
       price: ingredient.Ingredient?.price
     })),
