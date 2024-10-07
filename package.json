@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "prod": "dotenv -e .env.prod next build && next start",
     "lint": "next lint",
     "pullSchemaChanges": "sh ./pullSchemaChanges.sh",
     "prisma:push": "prisma db push",
