@@ -7,8 +7,7 @@ import { compare, hashSync } from "bcrypt";
 import { EnumUserRole } from "@prisma/client";
 
 export const authOptions: AuthOptions = {
-    //секрет который позволит генерироваться нашему jwt-токену
-    secret: process.env.NEXTAUTH_SECRET,
+    
     // Configure one or more authentication providers
     providers: [
         GoogleProvider({
@@ -79,7 +78,8 @@ export const authOptions: AuthOptions = {
             }
         })
     ],
-    
+    //секрет который позволит генерироваться нашему jwt-токену
+    secret: process.env.NEXTAUTH_SECRET,
     //обявить сессию и стратегию с которой будем работать
     session: {
         strategy: "jwt",//стратегия с jwt-токеном
