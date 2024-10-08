@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
             },
             data: {
                 status: {
-                    set: isSucceeded ? 'SUCCEEDED' : 'CANCELLED'
+                    set: isSucceeded ? { id: 2 } : { id: 3}
                 }
             } as Prisma.OrderUpdateInput
         })
