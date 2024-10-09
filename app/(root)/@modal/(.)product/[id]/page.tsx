@@ -5,7 +5,7 @@ import { ChooseProductModal, } from "@/shared/components/shared"
 import { prisma } from "@/prisma/prisma-client"
 import { notFound } from "next/navigation"
 
-export default async function ProductModalPage({ params: { id } }: { params: { id: string } }) {
+export default async function ProductModalPage({ params: { id } }: { params: { id: string } }) {//получает id из параметров адресной строки браузера
 
     //делаем запрос к БД, который потом отправляется в компонент модального окна
     const product = await prisma.product.findFirst({
@@ -21,10 +21,6 @@ export default async function ProductModalPage({ params: { id } }: { params: { i
                 }
             },
             ProductItem: true,
-         
-                    //NOTE ---- оригинал ---- //
-        // ingredients: true, 
-        // items: true, 
          
         },
 
